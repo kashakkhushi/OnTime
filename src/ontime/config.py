@@ -14,7 +14,8 @@ TRAIN_END = "2018-02-01"
 VALIDATION_END = "2018-05-01"
 # Validation is further split: tuning/calibration/policy are disjoint in time.
 CALIBRATION_START = "2018-03-01"
-POLICY_START = "2018-04-01"
+POLICY_START = "2018-03-16"
+POLICY_END = "2018-04-01"  # April is a label-maturation buffer before test.
 PRIOR_WEIGHT = 20.0
 # Cold start uses stated constants, never a full-sample (future) mean.
 COLD_LATE_RATE = 0.08
