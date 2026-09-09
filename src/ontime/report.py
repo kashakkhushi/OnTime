@@ -30,7 +30,7 @@ def generate():
 
     def n(key, value, fmt=",.0f", source="outputs/metrics.json"):
         display = format(value, fmt)
-        for token in re.findall(r"(?<![A-Za-z_])\d[\d,.]*(?:%|)?", display):
+        for token in re.findall(r"(?<![A-Za-z_])\d+(?:[,.]\d+)*(?:%)?", display):
             ledger.append({"key": key, "value": value, "display": token, "source": source})
         return display
 
@@ -57,7 +57,7 @@ Every order is attributed to its largest seller by merchandise value. We retain 
 
 ## Where the days are lost
 
-Beyond {n('distance_boundary',200,'.0f','sql/20_order_fact.sql; outputs/tables/decomposition.csv')} kilometres, the carrier-stage allocation accounts for {n('far_linehaul',m['decomposition']['linehaul_share_beyond_200km'],'.1%')} of observed late-vs-promise days under the stated decomposition. The calculation compares each late order's handling and transit durations with on-time median durations in the same distance band, then allocates its actual late days in proportion to positive stage excess. This preserves the total number of observed late days rather than treating every day in transit as an avoidable delay.
+Beyond {n('distance_boundary',m['assumptions']['distance_boundary_km'],'.0f')} kilometres, the carrier-stage allocation accounts for {n('far_linehaul',m['decomposition']['linehaul_share_beyond_200km'],'.1%')} of observed late-vs-promise days under the stated decomposition. The calculation compares each late order's handling and transit durations with on-time median durations in the same distance band, then allocates its actual late days in proportion to positive stage excess. This preserves the total number of observed late days rather than treating every day in transit as an avoidable delay.
 
 The implication is to inspect dispatch-to-delivery processes on longer routes: consolidation, sorting, last-mile handoffs, promised service and exception recovery. On short routes, use the corresponding stage split to decide whether dispatch readiness deserves equal attention. Handling is measured from purchase to carrier handoff, so it includes approval time; it is not a pure warehouse productivity measure. The transit stage also bundles activities beyond long-distance transport. Neither stage's accounting share is an estimate of how much an intervention would save.
 
@@ -168,7 +168,7 @@ The check runs the entire statistical pipeline twice and requires byte-identical
 
 {exclusion_table}
 
-Chronological cutoffs are **{c.TRAIN_END}** and **{c.VALIDATION_END}**. Fold late rates are **{m['splits'][0]['late_rate']:.2%} / {m['splits'][1]['late_rate']:.2%} / {m['splits'][2]['late_rate']:.2%}** (train/validation/test). Training labels must already be known at the training cutoff; separate tuning/calibration/policy windows and the April maturity buffer are described in methods and `development_subsets.csv`.
+Chronological cutoffs are **{c.TRAIN_END}** and **{c.VALIDATION_END}**. Fold late rates are **{m['splits'][0]['late_rate']:.2%} / {m['splits'][1]['late_rate']:.2%} / {m['splits'][2]['late_rate']:.2%}** (train/validation/test). Training labels must already be known at the training cutoff; separate tuning/calibration/policy windows and the May maturity buffer are described in methods and `development_subsets.csv`.
 
 ## Data, attribution and limits
 

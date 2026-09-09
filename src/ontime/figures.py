@@ -35,15 +35,21 @@ def figures():
 
     monthly = read("monthly_rates")
     monthly["month"] = pd.to_datetime(monthly.month)
-    fig, ax = plt.subplots(figsize=(12, 5.6))
-    ax.plot(monthly.month, monthly.late_rate, "o-", color=BLUE, lw=2.8, ms=6)
+    fig, (ax, volumes) = plt.subplots(2, 1, figsize=(12, 7), sharex=True, gridspec_kw={"height_ratios": [3, 1]})
+    # Two single-order months would flatten the meaningful rate scale. Keep
+    # them in the exported table and volume panel, explicitly label this rule.
+    stable = monthly.loc[monthly.orders >= 100]
+    ax.plot(stable.month, stable.late_rate, "o-", color=BLUE, lw=2.8, ms=6)
+    volumes.bar(monthly.month, monthly.orders, width=22, color=GREY, alpha=0.65)
+    volumes.set(xlabel="Purchase month", ylabel="Orders (n)")
+    ax.text(0.01, 0.97, "Rate line: months with at least 100 orders", transform=ax.transAxes, va="top", color=GREY, fontsize=11)
     for date, label in ((c.TRAIN_END, "Validation begins"), (c.VALIDATION_END, "Test begins")):
         ax.axvline(pd.Timestamp(date), color=GREY, ls="--", lw=1.5)
         ax.text(pd.Timestamp(date), ax.get_ylim()[1]*0.94, label, rotation=90, va="top", ha="right", color=GREY)
-    ax.set(title="Delivery risk changes substantially over time", xlabel="Purchase month", ylabel="Orders delivered after promise (%)")
+    ax.set(title="Delivery risk changes substantially over time", ylabel="Orders delivered after promise (%)", ylim=(0, stable.late_rate.max()*1.3))
     ax.yaxis.set_major_formatter(PercentFormatter(1))
     ax.grid(axis="y", alpha=0.18)
-    finish(fig, 1, "late_rate_over_time", "Monthly rates use the eligible delivered population; dashed lines mark the frozen chronological cutoffs. Sparse early months are retained.")
+    finish(fig, 1, "late_rate_over_time", "Rate line excludes months below 100 orders to avoid a single-order 100% rate dominating the scale; all months remain in the volume panel and CSV. Dashed lines mark chronological cutoffs.")
 
     states = read("smr_state").sort_values("smr")
     fig, ax = plt.subplots(figsize=(10.5, 11))
@@ -102,17 +108,23 @@ def figures():
     control.text(0, 0.35, "USES FUTURE\nDELIVERY\nINFORMATION", ha="center", color="white", weight="bold", fontsize=12)
     finish(fig, 5, "model_ladder", "Average precision is the step-weighted PR area. All models share the test cohort; the separated negative control uses future stage durations and review scores. Panel scales differ, and the control cannot be deployed.")
 
-    fig, ax = plt.subplots(figsize=(9, 7))
-    max_value = 0.0
+    fig, (ax, tails) = plt.subplots(1, 2, figsize=(13, 6.3), gridspec_kw={"width_ratios": [2.1, 1]})
     for name, color, label, marker in (("uncalibrated", BLUE, "Uncalibrated", "o"), ("isotonic", ORANGE, "Isotonic", "s")):
         rel = read("reliability_"+name).dropna()
-        ax.plot(rel.mean_prediction, rel.observed_rate, marker=marker, color=color, lw=2, label=label)
-        max_value = max(max_value, rel.mean_prediction.max(), rel.observed_rate.max())
-    limit = min(1.0, max(0.4, max_value*1.08))
-    ax.plot([0, limit], [0, limit], color=GREY, ls="--", label="Perfect calibration")
-    ax.set(title="Calibration must survive the next time period", xlabel="Mean predicted late probability", ylabel="Observed late fraction", xlim=(0, limit), ylim=(0, limit))
+        supported = rel.loc[rel.orders >= 30]
+        sparse = rel.loc[rel.orders < 30]
+        ax.plot(supported.mean_prediction, supported.observed_rate, marker=marker, color=color, lw=2.5, label=label)
+        tails.scatter(sparse.mean_prediction, sparse.observed_rate, marker=marker, facecolors="none", edgecolors=color, s=85, lw=2)
+        for row in sparse.itertuples():
+            tails.annotate(f"n={row.orders}", (row.mean_prediction,row.observed_rate), xytext=(-8,8 if row.observed_rate<0.9 else -18), textcoords="offset points", ha="right", color=color, fontsize=10)
+    ax.plot([0, 0.5], [0, 0.5], color=GREY, ls="--", label="Perfect calibration")
+    ax.set(title="Bins with at least 30 orders", xlabel="Mean predicted late probability", ylabel="Observed late fraction", xlim=(0,0.5), ylim=(0,0.5))
     ax.legend(loc="upper left"); ax.grid(alpha=0.15)
-    finish(fig, 6, "reliability", "Test reliability in ten equal-width probability bins; empty bins are omitted and counts are in companion CSVs. Isotonic regression was fitted on a disjoint validation period; improvement is not guaranteed under drift.")
+    tails.plot([0,1],[0,1],color=GREY,ls="--")
+    tails.set(title="Sparse bins (shown separately)", xlabel="Mean predicted probability", ylabel="Observed late fraction", xlim=(0,1.05), ylim=(-0.03,1.05))
+    tails.grid(alpha=0.15)
+    fig.suptitle("Calibration must survive the next time period", fontsize=20)
+    finish(fig, 6, "reliability", "Ten equal-width test probability bins: supported bins appear left, nonempty bins with fewer than 30 orders appear right with counts; scales differ. ECE uses all bins. Isotonic was fitted on a disjoint validation period.")
 
     reviews = read("review_distribution")
     fig, ax = plt.subplots(figsize=(11.5, 5.8))

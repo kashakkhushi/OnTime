@@ -69,17 +69,17 @@ online production history service would, while fitted models remain frozen.
 ## Forecasting and calibration protocol
 
 All orders are stably sorted by purchase timestamp then ID. Training purchases
-precede 2018-02-01, validation purchases precede 2018-05-01, and later purchases
+precede 2018-03-01, validation purchases precede 2018-06-01, and later purchases
 form the untouched test cohort. Training labels must already be delivered before
-2018-02-01. Validation is divided into February for model selection, March 1–15
-for isotonic calibration and March 16–31 for threshold choice. April provides a
-maturation buffer. All validation fitting labels must be available before May 1.
+2018-03-01. Validation is divided into March for model selection, April 1–15
+for isotonic calibration and April 16–30 for threshold choice. May provides a
+maturation buffer. All validation fitting labels must be available before June 1.
 The report exports these development cohorts separately from the full fold rates.
 There remains outcome-dependent censoring in every finite completion window; it
 is a limitation, not permission to use outcomes delivered after deployment.
 
 Imputers, scalers and encoders fit only on training. L2 C candidates are 0.001,
-0.01, 0.1, 1 and 10; the best February average precision selects C. LightGBM uses
+0.01, 0.1, 1 and 10; the best March average precision selects C. LightGBM uses
 fixed conservative complexity and early stopping. A predeclared absolute
 validation-AP tolerance of 0.01 favours L2 logistic over boosting. This practical
 simplicity rule is not a statistical statement that models are indistinguishable.

@@ -67,6 +67,6 @@ def test_memo_length_and_number_ledger():
     ledger=pd.read_csv(c.TABLES / 'memo_number_ledger.csv',dtype=str)
     assert len(ledger) > 20
     # Every numeric token in prose is emitted by the report's tracked num() helper.
-    tokens=set(re.findall(r'(?<![A-Za-z_])\d[\d,.]*(?:%|)?',text))
+    tokens=set(re.findall(r'(?<![A-Za-z_])\d+(?:[,.]\d+)*(?:%)?',text))
     allowed=set(ledger.display)
     assert tokens <= allowed, tokens-allowed

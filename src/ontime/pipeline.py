@@ -39,6 +39,10 @@ def run():
         frame = assign_splits(con.table("model_fact").df())
         splits = split_report(frame)
         splits.to_csv(c.TABLES / "split_summary.csv", index=False)
+        con.register("prediction_cohorts", frame[["at_order_id", "fold"]])
+        con.execute((c.SQL / "70_target_audit.sql").read_text())
+        target_audit = con.table("target_definition_sensitivity").df()
+        target_audit.to_csv(c.TABLES / "target_definition_sensitivity.csv", index=False)
         print(splits.to_string(index=False), flush=True)
         ladder = fit_ladder(frame)
         masks, champion = ladder["masks"], ladder["champion"]
@@ -80,6 +84,7 @@ def run():
         metrics = {"seed": c.SEED, "split_cutoffs": {"train_end": c.TRAIN_END, "validation_end": c.VALIDATION_END,
                     "calibration_start": c.CALIBRATION_START, "policy_start": c.POLICY_START, "policy_end": c.POLICY_END},
                    "population": population, "splits": splits.to_dict("records"), "development_subsets": development,
+                   "target_definition_sensitivity": target_audit.to_dict("records"),
                    "model_ladder": ladder["ladder"].to_dict("records"), "model_validation": ladder["validation"].to_dict("records"),
                    "champion": champion, "champion_reason": ladder["reason"], "calibration": calibration,
                    "top_states": segments.loc[segments.segment_type == "state"].sort_values(["smr", "segment"], ascending=[False, True]).head(5).to_dict("records"),
@@ -89,7 +94,8 @@ def run():
                    "assumptions": {"prior_weight": c.PRIOR_WEIGHT, "cold_late_rate": c.COLD_LATE_RATE,
                        "cold_handling_days": c.COLD_HANDLING_DAYS, "seller_min_orders": c.SELLER_MIN_ORDERS,
                        "seller_fdr": 0.05, "smr_confidence": 0.95, "simplicity_ap_tolerance": c.SIMPLICITY_AP_TOLERANCE,
-                       "min_policy_flagged": c.MIN_POLICY_FLAGGED, "figure_count": 8, "figure_dpi": 150},
+                       "min_policy_flagged": c.MIN_POLICY_FLAGGED, "figure_count": 8, "figure_dpi": 150,
+                       "distance_boundary_km": 200},
                    "environment": {"python": platform.python_version(), **{name: version(name) for name in
                        ("duckdb", "pandas", "numpy", "scikit-learn", "lightgbm", "matplotlib", "scipy", "pytest")}}}
         (c.OUTPUTS / "metrics.json").write_text(canonical_json(metrics), encoding="utf-8", newline="\n")
