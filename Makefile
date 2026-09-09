@@ -15,6 +15,7 @@ data:
 build:
 	$(VENV_PY) -m ontime.build
 	$(VENV_PY) -m ontime.pipeline
+	$(VENV_PY) -m ontime.report
 test:
 	$(VENV_PY) -m pytest
 figures:

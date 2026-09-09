@@ -3,13 +3,13 @@
 CREATE OR REPLACE TABLE global_events AS
 WITH events AS (SELECT post_delivery_date AS event_ts,count(*) AS n,sum(is_late) AS late,sum(post_handling_days) AS handling
 FROM order_fact GROUP BY event_ts)
-SELECT event_ts,sum(n) OVER w AS n,sum(late) OVER w AS late,sum(handling) OVER w AS handling
-FROM events WINDOW w AS(ORDER BY event_ts ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW);
+SELECT event_ts,sum(n) OVER global_window AS n,sum(late) OVER global_window AS late,sum(handling) OVER global_window AS handling
+FROM events WINDOW global_window AS(ORDER BY event_ts ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW);
 CREATE OR REPLACE TABLE seller_events AS
 WITH events AS (SELECT at_seller_id AS seller_id,post_delivery_date AS event_ts,count(*) AS n,sum(is_late) AS late,sum(post_handling_days) AS handling
 FROM order_fact GROUP BY seller_id,event_ts)
-SELECT seller_id,event_ts,sum(n) OVER w AS n,sum(late) OVER w AS late,sum(handling) OVER w AS handling
-FROM events WINDOW w AS(PARTITION BY seller_id ORDER BY event_ts ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW);
+SELECT seller_id,event_ts,sum(n) OVER seller_window AS n,sum(late) OVER seller_window AS late,sum(handling) OVER seller_window AS handling
+FROM events WINDOW seller_window AS(PARTITION BY seller_id ORDER BY event_ts ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW);
 CREATE OR REPLACE TABLE fact_seller_history AS
 WITH global_prior AS (
 SELECT o.*,

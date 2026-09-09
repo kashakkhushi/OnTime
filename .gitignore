@@ -9,3 +9,4 @@ __pycache__/
 tmp/
 outputs/.cache/
 .coverage
+pytest-cache-files-*/

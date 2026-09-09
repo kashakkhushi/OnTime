@@ -1,13 +1,13 @@
 CREATE OR REPLACE TABLE route_events AS
 WITH events AS (SELECT at_route AS route,post_delivery_date AS event_ts,count(*) AS n,sum(is_late) AS late,sum(post_handling_days) AS handling
 FROM order_fact GROUP BY route,event_ts)
-SELECT route,event_ts,sum(n) OVER w AS n,sum(late) OVER w AS late,sum(handling) OVER w AS handling
-FROM events WINDOW w AS(PARTITION BY route ORDER BY event_ts ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW);
+SELECT route,event_ts,sum(n) OVER route_window AS n,sum(late) OVER route_window AS late,sum(handling) OVER route_window AS handling
+FROM events WINDOW route_window AS(PARTITION BY route ORDER BY event_ts ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW);
 CREATE OR REPLACE TABLE distance_events AS
 WITH events AS (SELECT at_distance_band AS band,post_delivery_date AS event_ts,count(*) AS n,sum(is_late) AS late
 FROM order_fact GROUP BY band,event_ts)
-SELECT band,event_ts,sum(n) OVER w AS n,sum(late) OVER w AS late
-FROM events WINDOW w AS(PARTITION BY band ORDER BY event_ts ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW);
+SELECT band,event_ts,sum(n) OVER distance_window AS n,sum(late) OVER distance_window AS late
+FROM events WINDOW distance_window AS(PARTITION BY band ORDER BY event_ts ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW);
 CREATE OR REPLACE TABLE model_fact AS
 SELECT o.*,coalesce(r.n,0)::BIGINT AS at_route_history_count,
     ((coalesce(r.late,0)+p.prior_weight*o.at_global_late_rate)/(coalesce(r.n,0)+p.prior_weight))::DOUBLE AS at_route_late_rate,
