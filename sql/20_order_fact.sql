@@ -10,7 +10,7 @@ WITH seller_totals AS (
     SELECT i.order_id, coalesce(t.category_english,p.category,'unknown') AS category, sum(i.price) AS category_price
     FROM clean_items i LEFT JOIN stg_products p USING(product_id) LEFT JOIN stg_translation t ON p.category=t.category
     GROUP BY i.order_id, coalesce(t.category_english,p.category,'unknown')
-    QUALIFY row_number() OVER(PARTITION BY i.order_id ORDER BY category_price DESC,category)=1
+    QUALIFY row_number() OVER(PARTITION BY i.order_id ORDER BY category_price DESC,coalesce(t.category_english,p.category,'unknown'))=1
 )
 SELECT i.order_id, d.seller_id, dc.category, count(*)::INTEGER AS item_count,
     count(DISTINCT i.seller_id)::INTEGER AS seller_count,

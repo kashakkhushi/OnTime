@@ -16,8 +16,8 @@ NAMES = (
     "olist_order_reviews_dataset", "olist_customers_dataset", "olist_sellers_dataset",
     "olist_products_dataset", "olist_geolocation_dataset", "product_category_name_translation",
 )
-REVISION = "9f4e18586e6cb6b35b37361ec1939c75e5ba416c"
-BASE = f"https://raw.githubusercontent.com/Athospd/work-at-olist-data/{REVISION}/datasets"
+REVISION = "d9e49802f3e92d09ee94ab9ccc5e457f207a8959"
+BASE = f"https://raw.githubusercontent.com/olist/work-at-olist-data/{REVISION}/datasets"
 
 
 def sha256(path):
@@ -78,10 +78,13 @@ tables and figures derived from the data are attributed here under CC BY-NC-SA 4
 Raw data are intentionally excluded from git. A mirror's repository-level MIT
 licence is not treated as permission to relicense the original data.
 
-Mirror: [Athospd/work-at-olist-data](https://github.com/Athospd/work-at-olist-data),
-a fork of Olist's practical data-team exercise. All nine files are pinned to one
-commit. The public fortunewalla/olist mirror was also inspected during discovery;
-the Athospd mirror provides the complete, directly downloadable set.
+Raw GitHub source: [olist/work-at-olist-data](https://github.com/olist/work-at-olist-data),
+Olist's own practical data-team exercise. All nine files are pinned to one commit.
+Headers were checked across Athospd/work-at-olist-data, Faroja/Olist-Customers-Segementation,
+olist/work-at-olist-data and vishalkirtaniya/e-com-data-analysis. The Athospd
+revision 9f4e18586e6cb6b35b37361ec1939c75e5ba416c was rejected: its review CSV has
+extra unnamed columns and malformed rows with review text in timestamp fields.
+The clean upstream Olist copy was selected instead; rejected bytes are not used.
 
 No modifications to the downloaded bytes. Transformations: explicit typed
 staging; median coordinate per zip; deterministic review/payment/item reduction;
