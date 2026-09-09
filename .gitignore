@@ -1,0 +1,11 @@
+data/raw/
+data/*.duckdb*
+.venv/
+.tools/
+__pycache__/
+.pytest_cache/
+*.egg-info/
+*.pyc
+tmp/
+outputs/.cache/
+.coverage
