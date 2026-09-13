@@ -1,0 +1,1 @@
+Rate line excludes months below 100 orders to avoid a single-order 100% rate dominating the scale; all months remain in the volume panel and CSV. Dashed lines mark chronological cutoffs.

@@ -1,0 +1,6 @@
+step,filter,retained,excluded_at_step
+0,loaded orders,99441,0
+1,delivered status,96478,2963
+2,complete timestamps,96455,23
+3,monotone timestamps and valid promise,95082,1373
+4,customer and valid items,95082,0

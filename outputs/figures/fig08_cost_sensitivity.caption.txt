@@ -1,0 +1,1 @@
+Each cell selects its threshold on validation; OFF means validation chose no intervention. Dashed contours show break-even at the base candidate's fixed test precision, a reference distinct from cell-specific policies. Values assume effectiveness, not observed intervention effects.

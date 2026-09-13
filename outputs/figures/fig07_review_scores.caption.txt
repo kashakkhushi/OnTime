@@ -1,0 +1,1 @@
+Each group is normalised over orders with a recorded review; missing-review counts are reported separately. Association does not identify retention loss or a monetary value for preventing lateness.

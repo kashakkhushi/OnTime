@@ -1,0 +1,1 @@
+Average precision is the step-weighted PR area. All models share the test cohort; the separated negative control uses future stage durations and review scores. Panel scales differ, and the control cannot be deployed.

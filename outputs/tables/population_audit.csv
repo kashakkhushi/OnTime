@@ -1,0 +1,14 @@
+statistic,value
+raw_geolocation_rows,1000163.0
+distinct_zip_prefixes,19015.0
+invalid_geolocation_rows,29.0
+multiseller_orders,1223.0
+multiitem_orders,9476.0
+unknown_distance_orders,472.0
+missing_review_orders,639.0
+multiple_review_orders,547.0
+orders,95082.0
+late_orders,7792.0
+late_rate,0.08195031656885636
+min_purchase_year,2016.0
+max_purchase_year,2018.0

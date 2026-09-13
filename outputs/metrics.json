@@ -1,0 +1,538 @@
+{
+  "assumptions": {
+    "cold_handling_days": 3.0,
+    "cold_late_rate": 0.08,
+    "distance_boundary_km": 200,
+    "figure_count": 8,
+    "figure_dpi": 150,
+    "min_policy_flagged": 100,
+    "prior_weight": 20.0,
+    "seller_fdr": 0.05,
+    "seller_min_orders": 100,
+    "simplicity_ap_tolerance": 0.01,
+    "smr_confidence": 0.95
+  },
+  "calibration": [
+    {
+      "brier": 0.0528560501756531,
+      "calibration": "uncalibrated",
+      "ece_10_bins": 0.015576525183161993,
+      "log_loss": 0.20684754254719578,
+      "model": "regularised_logistic",
+      "pr_auc": 0.10494920837192574,
+      "pr_auc_floor": 0.056362514721552355,
+      "roc_auc": 0.6995243679380347
+    },
+    {
+      "brier": 0.05645730672370835,
+      "calibration": "isotonic",
+      "ece_10_bins": 0.041890372029735126,
+      "log_loss": 0.23229368772505865,
+      "model": "regularised_logistic",
+      "pr_auc": 0.09895299684724271,
+      "pr_auc_floor": 0.056362514721552355,
+      "roc_auc": 0.6948842498549685
+    }
+  ],
+  "champion": "regularised_logistic",
+  "champion_reason": "Validation AP gain for LightGBM over L2 logistic was -0.027951; the predeclared practical tolerance was 0.01. This is a simplicity decision rule, not a significance test.",
+  "cost_model": {
+    "break_even_effectiveness": 0.8638418079096045,
+    "break_even_lower": 0.7526260721765138,
+    "break_even_upper": 0.9985228482055118,
+    "cost_brl": 8.0,
+    "deployed_policy_net_per_order": 0.0,
+    "effectiveness": 0.5,
+    "expected_saved": 88.5,
+    "flag_rate": 0.08574953732264035,
+    "flagged": 1529,
+    "late_flagged": 177,
+    "mean_probability_flagged": 0.28398428632295747,
+    "net_per_order": -0.2889350008412316,
+    "net_positive_cells": 3,
+    "orders": 17831,
+    "precision": 0.1157619359058208,
+    "precision_ci_lower": 0.10014793369997921,
+    "precision_ci_upper": 0.1328681050216753,
+    "predicted_break_even_effectiveness": 0.35213215947545873,
+    "predicted_net_per_order": 0.2880645477826302,
+    "sensitivity_cells": 27,
+    "threshold": 0.225,
+    "validation_candidate_net": -0.23713355048859935,
+    "validation_enabled": false,
+    "value_brl": 80.0
+  },
+  "decomposition": {
+    "fallback_orders": 51,
+    "linehaul_share_beyond_200km": 0.8686276964237172,
+    "total_late_days": 74491.57989583333
+  },
+  "development_subsets": [
+    {
+      "end": "2018-02-27 09:53:16",
+      "late": 3195,
+      "late_rate": 0.05973190749499897,
+      "orders": 53489,
+      "start": "2016-09-15 12:16:38",
+      "subset": "train"
+    },
+    {
+      "end": "2018-03-31 23:54:10",
+      "late": 1489,
+      "late_rate": 0.21289676865885043,
+      "orders": 6994,
+      "start": "2018-03-01 00:00:00",
+      "subset": "tune"
+    },
+    {
+      "end": "2018-04-15 23:55:50",
+      "late": 185,
+      "late_rate": 0.056818181818181816,
+      "orders": 3256,
+      "start": "2018-04-01 00:11:32",
+      "subset": "calibrate"
+    },
+    {
+      "end": "2018-04-30 23:47:26",
+      "late": 90,
+      "late_rate": 0.029315960912052116,
+      "orders": 3070,
+      "start": "2018-04-16 00:03:57",
+      "subset": "policy"
+    },
+    {
+      "end": "2018-08-29 15:00:37",
+      "late": 1005,
+      "late_rate": 0.056362514721552355,
+      "orders": 17831,
+      "start": "2018-06-01 00:39:55",
+      "subset": "test"
+    }
+  ],
+  "dq": [
+    {
+      "check_name": "01_orders_pk",
+      "violations": 0
+    },
+    {
+      "check_name": "02_items_composite_pk",
+      "violations": 0
+    },
+    {
+      "check_name": "03_payments_composite_pk",
+      "violations": 0
+    },
+    {
+      "check_name": "04_reviews_candidate_pk",
+      "violations": 814
+    },
+    {
+      "check_name": "05_customers_pk",
+      "violations": 0
+    },
+    {
+      "check_name": "06_sellers_pk",
+      "violations": 0
+    },
+    {
+      "check_name": "07_products_pk",
+      "violations": 0
+    },
+    {
+      "check_name": "08_geolocation_zip_candidate_pk",
+      "violations": 981148
+    },
+    {
+      "check_name": "09_translation_pk",
+      "violations": 0
+    },
+    {
+      "check_name": "10_order_customer_fk",
+      "violations": 0
+    },
+    {
+      "check_name": "11_item_product_fk",
+      "violations": 0
+    },
+    {
+      "check_name": "12_item_seller_fk",
+      "violations": 0
+    },
+    {
+      "check_name": "13_purchase_before_approval",
+      "violations": 0
+    },
+    {
+      "check_name": "14_approval_before_carrier",
+      "violations": 1359
+    },
+    {
+      "check_name": "15_carrier_before_customer",
+      "violations": 23
+    },
+    {
+      "check_name": "16_checkout_identifiers_nonnull",
+      "violations": 0
+    },
+    {
+      "check_name": "17_delivered_timestamps_complete",
+      "violations": 23
+    },
+    {
+      "check_name": "18_freight_nonnegative",
+      "violations": 0
+    },
+    {
+      "check_name": "19_price_positive",
+      "violations": 0
+    },
+    {
+      "check_name": "20_weight_positive",
+      "violations": 6
+    },
+    {
+      "check_name": "21_dimensions_positive",
+      "violations": 2
+    },
+    {
+      "check_name": "22_category_translation_coverage",
+      "violations": 623
+    },
+    {
+      "check_name": "23_customer_zip_coverage",
+      "violations": 280
+    },
+    {
+      "check_name": "24_seller_zip_coverage",
+      "violations": 8
+    },
+    {
+      "check_name": "25_duplicate_item_lines",
+      "violations": 0
+    },
+    {
+      "check_name": "26_delivered_without_delivery",
+      "violations": 8
+    },
+    {
+      "check_name": "27_delivery_without_delivered",
+      "violations": 6
+    },
+    {
+      "check_name": "28_order_has_items_and_payment",
+      "violations": 776
+    }
+  ],
+  "environment": {
+    "duckdb": "1.4.3",
+    "lightgbm": "4.6.0",
+    "matplotlib": "3.10.8",
+    "numpy": "2.3.5",
+    "pandas": "2.3.3",
+    "pytest": "9.0.2",
+    "python": "3.13.7",
+    "scikit-learn": "1.7.2",
+    "scipy": "1.16.3"
+  },
+  "model_ladder": [
+    {
+      "brier": 0.056362514721552355,
+      "log_loss": 0.7786778608469805,
+      "model": "majority_never_late",
+      "pr_auc": 0.056362514721552355,
+      "pr_auc_floor": 0.056362514721552355,
+      "roc_auc": 0.5
+    },
+    {
+      "brier": 0.053197134463476896,
+      "log_loss": 0.21694216552421441,
+      "model": "base_rate_constant",
+      "pr_auc": 0.056362514721552355,
+      "pr_auc_floor": 0.056362514721552355,
+      "roc_auc": 0.5
+    },
+    {
+      "brier": 0.05387616213670196,
+      "log_loss": 0.22328834724369032,
+      "model": "distance_logistic",
+      "pr_auc": 0.04968512392287315,
+      "pr_auc_floor": 0.056362514721552355,
+      "roc_auc": 0.36971815119103163
+    },
+    {
+      "brier": 0.05410241610373876,
+      "log_loss": 0.24452833400944968,
+      "model": "full_logistic",
+      "pr_auc": 0.089460530385783,
+      "pr_auc_floor": 0.056362514721552355,
+      "roc_auc": 0.6192715254110998
+    },
+    {
+      "brier": 0.0528560501756531,
+      "log_loss": 0.20684754254719578,
+      "model": "regularised_logistic",
+      "pr_auc": 0.10494920837192574,
+      "pr_auc_floor": 0.056362514721552355,
+      "roc_auc": 0.6995243679380347
+    },
+    {
+      "brier": 0.054083620044523086,
+      "log_loss": 0.2305183388426369,
+      "model": "lightgbm",
+      "pr_auc": 0.07516819001709693,
+      "pr_auc_floor": 0.056362514721552355,
+      "roc_auc": 0.6270223233056162
+    },
+    {
+      "brier": 0.023844853033211894,
+      "log_loss": 0.10881207283730983,
+      "model": "leaky_negative_control",
+      "pr_auc": 0.8392114696609325,
+      "pr_auc_floor": 0.056362514721552355,
+      "roc_auc": 0.9798389486065453
+    }
+  ],
+  "model_validation": [
+    {
+      "brier": 0.21289676865885043,
+      "log_loss": 2.941278342266451,
+      "model": "majority_never_late",
+      "pr_auc": 0.21289676865885043,
+      "pr_auc_floor": 0.21289676865885043,
+      "roc_auc": 0.5
+    },
+    {
+      "brier": 0.19103120924881223,
+      "log_loss": 0.6483973258231753,
+      "model": "base_rate_constant",
+      "pr_auc": 0.21289676865885043,
+      "pr_auc_floor": 0.21289676865885043,
+      "roc_auc": 0.5
+    },
+    {
+      "brier": 0.18929330806990055,
+      "log_loss": 0.6368840598435573,
+      "model": "distance_logistic",
+      "pr_auc": 0.2813023484535505,
+      "pr_auc_floor": 0.21289676865885043,
+      "roc_auc": 0.6287852364508972
+    },
+    {
+      "brier": 0.1987825584876373,
+      "log_loss": 0.7833225933311353,
+      "model": "full_logistic",
+      "pr_auc": 0.37247697452165396,
+      "pr_auc_floor": 0.21289676865885043,
+      "roc_auc": 0.6819040508384526
+    },
+    {
+      "brier": 0.18449879343957623,
+      "log_loss": 0.6217418658987727,
+      "model": "regularised_logistic",
+      "pr_auc": 0.3805884416990489,
+      "pr_auc_floor": 0.21289676865885043,
+      "roc_auc": 0.6853517987494121
+    },
+    {
+      "brier": 0.2027811209387399,
+      "log_loss": 0.8091411044079687,
+      "model": "lightgbm",
+      "pr_auc": 0.3526372545176337,
+      "pr_auc_floor": 0.21289676865885043,
+      "roc_auc": 0.6533437762483462
+    },
+    {
+      "brier": 0.005408635890449377,
+      "log_loss": 0.020523206240590754,
+      "model": "leaky_negative_control",
+      "pr_auc": 0.9992233510211659,
+      "pr_auc_floor": 0.21289676865885043,
+      "roc_auc": 0.9997815039627569
+    }
+  ],
+  "population": {
+    "distinct_zip_prefixes": 19015.0,
+    "invalid_geolocation_rows": 29.0,
+    "late_orders": 7792.0,
+    "late_rate": 0.08195031656885636,
+    "max_purchase_year": 2018.0,
+    "min_purchase_year": 2016.0,
+    "missing_review_orders": 639.0,
+    "multiitem_orders": 9476.0,
+    "multiple_review_orders": 547.0,
+    "multiseller_orders": 1223.0,
+    "orders": 95082.0,
+    "raw_geolocation_rows": 1000163.0,
+    "unknown_distance_orders": 472.0
+  },
+  "rio": {
+    "ci_lower": 1.5775336929488848,
+    "ci_upper": 1.737897152768526,
+    "excess_late_orders": 657.7416423892452,
+    "expected": 1002.2583576107548,
+    "observed": 1660.0,
+    "orders": 12210,
+    "p_excess": 1.9602308648827804e-80,
+    "q_excess": null,
+    "raw_late_rate": 0.13595413595413594,
+    "segment": "RJ",
+    "segment_type": "state",
+    "seller_tail": false,
+    "smr": 1.656259573586605
+  },
+  "seed": 42,
+  "seller_tail": {
+    "ci_lower": 1.667413392162912,
+    "ci_upper": 1.980337880978973,
+    "eligible_sellers": 202,
+    "excess_late_orders": 239.05669457347443,
+    "expected": 291.9433054265256,
+    "late": 531,
+    "order_share": 0.03625291853347637,
+    "orders": 3447,
+    "pooled_late_rate": 0.08195031656885636,
+    "raw_late_rate": 0.15404699738903394,
+    "sellers": 11,
+    "smr": 1.8188462969692538,
+    "total_sellers": 2948
+  },
+  "split_cutoffs": {
+    "calibration_start": "2018-04-01",
+    "policy_end": "2018-05-01",
+    "policy_start": "2018-04-16",
+    "train_end": "2018-03-01",
+    "validation_end": "2018-06-01"
+  },
+  "splits": [
+    {
+      "end": "2018-02-28 23:57:55",
+      "fold": "train",
+      "late": 4386,
+      "late_rate": 0.07673198040587824,
+      "orders": 57160,
+      "start": "2016-09-15 12:16:38"
+    },
+    {
+      "end": "2018-05-31 23:51:24",
+      "fold": "validation",
+      "late": 2401,
+      "late_rate": 0.11950624657806978,
+      "orders": 20091,
+      "start": "2018-03-01 00:00:00"
+    },
+    {
+      "end": "2018-08-29 15:00:37",
+      "fold": "test",
+      "late": 1005,
+      "late_rate": 0.056362514721552355,
+      "orders": 17831,
+      "start": "2018-06-01 00:39:55"
+    }
+  ],
+  "target_definition_sensitivity": [
+    {
+      "calendar_date_late": 663,
+      "calendar_late_rate": 0.03718243508496439,
+      "fold": "test",
+      "orders": 17831,
+      "same_promised_day_late": 342,
+      "timestamp_late": 1005,
+      "timestamp_late_rate": 0.056362514721552355
+    },
+    {
+      "calendar_date_late": 3778,
+      "calendar_late_rate": 0.06609517144856543,
+      "fold": "train",
+      "orders": 57160,
+      "same_promised_day_late": 608,
+      "timestamp_late": 4386,
+      "timestamp_late_rate": 0.07673198040587824
+    },
+    {
+      "calendar_date_late": 2068,
+      "calendar_late_rate": 0.10293166094271067,
+      "fold": "validation",
+      "orders": 20091,
+      "same_promised_day_late": 333,
+      "timestamp_late": 2401,
+      "timestamp_late_rate": 0.11950624657806978
+    }
+  ],
+  "top_states": [
+    {
+      "ci_lower": 1.6569311696055995,
+      "ci_upper": 2.514904642621779,
+      "excess_late_orders": 47.69757338132722,
+      "expected": 45.30242661867278,
+      "observed": 93.0,
+      "orders": 393,
+      "p_excess": 3.6587962991154357e-10,
+      "q_excess": null,
+      "raw_late_rate": 0.2366412213740458,
+      "segment": "AL",
+      "segment_type": "state",
+      "seller_tail": false,
+      "smr": 2.052870164832786
+    },
+    {
+      "ci_lower": 1.5775336929488848,
+      "ci_upper": 1.737897152768526,
+      "excess_late_orders": 657.7416423892452,
+      "expected": 1002.2583576107548,
+      "observed": 1660.0,
+      "orders": 12210,
+      "p_excess": 1.9602308648827804e-80,
+      "q_excess": null,
+      "raw_late_rate": 0.13595413595413594,
+      "segment": "RJ",
+      "segment_type": "state",
+      "seller_tail": false,
+      "smr": 1.656259573586605
+    },
+    {
+      "ci_lower": 1.286324467351541,
+      "ci_upper": 1.8022083642156672,
+      "excess_late_orders": 48.73101959516366,
+      "expected": 92.26898040483634,
+      "observed": 141.0,
+      "orders": 704,
+      "p_excess": 1.4750381698605666e-06,
+      "q_excess": null,
+      "raw_late_rate": 0.2002840909090909,
+      "segment": "MA",
+      "segment_type": "state",
+      "seller_tail": false,
+      "smr": 1.5281408701099009
+    },
+    {
+      "ci_lower": 1.2253890037121618,
+      "ci_upper": 1.5830870577184086,
+      "excess_late_orders": 68.61176875029582,
+      "expected": 173.38823124970418,
+      "observed": 242.0,
+      "orders": 1968,
+      "p_excess": 4.998598728469817e-07,
+      "q_excess": null,
+      "raw_late_rate": 0.12296747967479675,
+      "segment": "ES",
+      "segment_type": "state",
+      "seller_tail": false,
+      "smr": 1.3957117980601863
+    },
+    {
+      "ci_lower": 1.2162632845605577,
+      "ci_upper": 1.465760365802038,
+      "excess_late_orders": 113.84486014644119,
+      "expected": 338.1551398535588,
+      "observed": 452.0,
+      "orders": 3210,
+      "p_excess": 2.195555114182717e-09,
+      "q_excess": null,
+      "raw_late_rate": 0.14080996884735203,
+      "segment": "BA",
+      "segment_type": "state",
+      "seller_tail": false,
+      "smr": 1.336664585952302
+    }
+  ]
+}

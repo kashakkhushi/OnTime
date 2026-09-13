@@ -1,0 +1,1 @@
+Actual days late are allocated by positive stage-duration excess over distance-matched on-time medians; this is a descriptive accounting convention, not an identified causal or preventable share.

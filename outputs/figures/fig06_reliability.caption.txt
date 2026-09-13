@@ -1,0 +1,1 @@
+Ten equal-width test probability bins: supported bins appear left, nonempty bins with fewer than 30 orders appear right with counts; scales differ. ECE uses all bins. Isotonic was fitted on a disjoint validation period.

@@ -1,0 +1,1 @@
+Sellers are ordered by observed minus expected late orders; only positive excess enters the cumulative numerator. Negative excess is not offset, and this curve differs from the FDR-screened action tail.
