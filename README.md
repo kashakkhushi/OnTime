@@ -1,4 +1,4 @@
-# OnTime
+# OrderSentinel
 
 **E-commerce delivery-risk and operational-driver analytics — DuckDB, SQL and Python.** Do not deploy the checkout model as a paid-intervention trigger under the base assumptions.
 
