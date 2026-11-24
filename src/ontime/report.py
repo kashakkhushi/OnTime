@@ -1,4 +1,4 @@
-"""Generate the director memo and recruiter README from computed results only.
+"""Generate the director memo and project README from computed results only.
 
 The memo's numeric display ledger preserves every displayed value and its source.
 """
@@ -119,7 +119,7 @@ Read the **[decision memo](docs/DECISION_MEMO.md)** for the recommendation and *
 Champion: **{champion}**. {m['champion_reason']}
 The checkout-only average precision is the real forecasting result; the leaky control uses information that arrives after checkout and cannot support deployment. PR-AUC here means average precision, not trapezoidal PR area. Log loss clips probabilities at 0.000001 and 0.999999.
 
-Isotonic test ECE {calibration_direction} from **{raw['ece_10_bins']:.4f}** to **{calibrated['ece_10_bins']:.4f}**. Calibrated Brier: **{calibrated['brier']:.4f}**; calibrated log loss: **{calibrated['log_loss']:.4f}**. Results are reported as measured, without forcing the prompt's expected improvement.
+Isotonic test ECE {calibration_direction} from **{raw['ece_10_bins']:.4f}** to **{calibrated['ece_10_bins']:.4f}**. Calibrated Brier: **{calibrated['brier']:.4f}**; calibrated log loss: **{calibrated['log_loss']:.4f}**. Calibration is fitted on a separate early-April window and reported exactly as measured on the untouched test period.
 
 The active candidate has **{costs['precision']:.1%}** test precision and **R${costs['net_per_order']:.3f}** expected net per incoming order at assumed cost **R${costs['cost_brl']:.0f}**, value **R${costs['value_brl']:.0f}**, and effectiveness **{costs['effectiveness']:.0%}**. No action is explicitly available; monetary values and efficacy are scenarios, not observed business outcomes.
 
@@ -140,8 +140,8 @@ All warehouse schema, typing, joins and aggregation SQL lives in `.sql` files. P
 Requirements: **Python 3.11+**, Git and GNU Make. Verified locally with Python **{m['environment']['python']}**; all Python runtime dependencies are pinned. Use Python 3.13 for the closest cross-platform comparison. On Windows, install GNU Make or put a portable `make.exe` on PATH; commands below work in PowerShell with that prerequisite.
 
 ```bash
-git clone https://github.com/kashakkhushi/ontime-delivery-risk.git
-cd ontime-delivery-risk
+git clone https://github.com/kashakkhushi/OnTime.git
+cd OnTime
 make all
 ```
 

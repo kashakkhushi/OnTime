@@ -30,7 +30,7 @@ Read the **[decision memo](docs/DECISION_MEMO.md)** for the recommendation and *
 Champion: **regularised logistic**. Validation AP gain for LightGBM over L2 logistic was -0.027951; the predeclared practical tolerance was 0.01. This is a simplicity decision rule, not a significance test.
 The checkout-only average precision is the real forecasting result; the leaky control uses information that arrives after checkout and cannot support deployment. PR-AUC here means average precision, not trapezoidal PR area. Log loss clips probabilities at 0.000001 and 0.999999.
 
-Isotonic test ECE worsened from **0.0156** to **0.0419**. Calibrated Brier: **0.0565**; calibrated log loss: **0.2323**. Results are reported as measured, without forcing the prompt's expected improvement.
+Isotonic test ECE worsened from **0.0156** to **0.0419**. Calibrated Brier: **0.0565**; calibrated log loss: **0.2323**. Calibration is fitted on a separate early-April window and reported exactly as measured on the untouched test period.
 
 The active candidate has **11.6%** test precision and **R$-0.289** expected net per incoming order at assumed cost **R$8**, value **R$80**, and effectiveness **50%**. No action is explicitly available; monetary values and efficacy are scenarios, not observed business outcomes.
 
@@ -51,8 +51,8 @@ All warehouse schema, typing, joins and aggregation SQL lives in `.sql` files. P
 Requirements: **Python 3.11+**, Git and GNU Make. Verified locally with Python **3.13.7**; all Python runtime dependencies are pinned. Use Python 3.13 for the closest cross-platform comparison. On Windows, install GNU Make or put a portable `make.exe` on PATH; commands below work in PowerShell with that prerequisite.
 
 ```bash
-git clone https://github.com/kashakkhushi/ontime-delivery-risk.git
-cd ontime-delivery-risk
+git clone https://github.com/kashakkhushi/OnTime.git
+cd OnTime
 make all
 ```
 
